@@ -3,7 +3,7 @@
     "undef": true,
     "mocha": true,
     "globals": {
-        "_": true,
+        "_": true
     },
     "esversion": 6
 }

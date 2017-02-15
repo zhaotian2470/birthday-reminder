@@ -4,7 +4,7 @@
   "description": "birthdayRemainder",
   "main": "index.js",
   "scripts": {
-    "lint": "find . -path '*/node_modules/*' -prune -o -name '*.js' -print | xargs node_modules/jshint/bin/jshint"
+    "lint": "find . -path '*/node_modules/*' -prune -o -path '*/lib/LunarCalendar.js' -prune -o -name '*.js' -print | xargs node_modules/jshint/bin/jshint"
   },
   "keywords": [
     "birthday"

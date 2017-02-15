@@ -12,7 +12,7 @@ const util = require('util'),
       mongoose = require('mongoose'),
       commonUtil = require('./lib/commonUtil'),
       contactsFinder = require('./lib/contactsFinder.js'),
-      emailSender = require('./lib/emailSender.js');;
+      emailSender = require('./lib/emailSender.js');
 
 var logger = commonUtil.logger;
 var config = commonUtil.config;
@@ -45,7 +45,7 @@ function handleContactsBirthday() {
   config.get("remaindBeforeDays").forEach(function(day) {
     var birthday = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate() + day));
     birthdays.push(birthday);
-  })
+  });
 
   // remiand birthdays
   remaindBirthdays(birthdays);
@@ -105,4 +105,4 @@ function remaindBirthdays(birthdays) {
       }
     });
 
-};
+}
