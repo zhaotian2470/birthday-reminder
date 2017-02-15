@@ -1,0 +1,26 @@
+{
+  "remaindBeforeDays": [0, 1, 2, 7],
+  "mainLogName": "birthdayReminder",
+  "mainLogLevel": "debug",
+  "mainLogSrc": false,
+
+  "emailOptions": {
+    "maxRetries": 3,
+    "transport": {
+      "host": "smtp-mail.outlook.com",
+      "port": 587,
+      "secure": false,
+      "auth": {
+	"user": "exampleFrom@hotmail.com",
+	"pass": "********"
+      }
+    },
+    "from": "exampleFrom@hotmail.com",
+    "to": "exampleTo@51talk.com"
+  },
+  
+  "dbConfig": {
+    "host": "localhost",
+    "dbName": "contacts"
+  }
+}

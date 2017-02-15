@@ -1,0 +1,24 @@
+{
+  "name": "birthdayRemainder",
+  "version": "0.0.1",
+  "description": "birthdayRemainder",
+  "main": "index.js",
+  "scripts": {
+    "lint": "find . -path '*/node_modules/*' -prune -o -name '*.js' -print | xargs node_modules/jshint/bin/jshint"
+  },
+  "keywords": [
+    "birthday"
+  ],
+  "author": "tian",
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.8.5",
+    "config": "^1.25.1",
+    "mongoose": "^4.8.2",
+    "nodemailer": "^2.6.4",
+    "util": "^0.10.3"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.4"
+  }
+}

@@ -1,0 +1,9 @@
+{
+    "node": true,
+    "undef": true,
+    "mocha": true,
+    "globals": {
+        "_": true,
+    },
+    "esversion": 6
+}
