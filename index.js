@@ -29,15 +29,15 @@ mongoose.connect(mangoUrl, function(mongoError) {
     return;
   }
 
-  handleContactsBirthday();
-  setInterval(handleContactsBirthday, 24 * 3600 * 1000);
+  remaindBirthdays();
+  setInterval(remaindBirthdays, 24 * 3600 * 1000);
 
 });
 
 /**
- * handle birthday in contacts
+ * remaind all user's birthdays
  */
-function handleContactsBirthday() {
+function remaindBirthdays() {
 
   // get important birthdays
   var birthdays = [];
@@ -47,16 +47,23 @@ function handleContactsBirthday() {
     birthdays.push(birthday);
   });
 
-  // remiand birthdays
-  remaindBirthdays(birthdays);
+  // remiand user birthdays
+  var finder = new contactsFinder.ContactsFinder();
+  finder.findUsers()
+    .then(function(value) {
+      value.forEach(function(element) {
+        remaindUserBirthdays(element, birthdays);
+      });
+    });
 }
 
 /**
- * send birthday remainder on specific days
+ * send birthday remainder on specific user
  * 
+ * @param {user from db}user
  * @param {Array of Date}birthdays
  */
-function remaindBirthdays(birthdays) {
+function remaindUserBirthdays(user, birthdays) {
 
   // show log
   var birthdaysStr = "[";
@@ -64,12 +71,13 @@ function remaindBirthdays(birthdays) {
     birthdaysStr += commonUtil.toUTCDateString(birthday) + ", ";
   });
   birthdaysStr += "]";
-  logger.info("remaind birthdays on %s", birthdaysStr);
+  logger.info("remaind user birthdays: user id is %s, user email is %s, birthdays is %s",
+              user._id, user.email, birthdaysStr);
 
   // fill emailOptions
   var emailOptions = {
     from: config.get("emailOptions.from"),
-    to: config.get("emailOptions.to"),
+    to: user.email,
     subject: util.format("birthday remainder sent on %s", commonUtil.toUTCDateString(new Date())),
     text: '',
     html: ''
@@ -78,7 +86,7 @@ function remaindBirthdays(birthdays) {
   var finder = new contactsFinder.ContactsFinder();
   var birthdayPromises = [];
   birthdays.forEach(function(birthday) {
-    birthdayPromises.push(finder.findContactsByBirthday(birthday)
+    birthdayPromises.push(finder.findUserContactsByBirthday(user._id, birthday)
                           .then(function(value) {
                             if (value.length !== 0) {
                               emailOptions.text += util.format("birthday on %s:\n", commonUtil.toUTCDateString(birthday));
