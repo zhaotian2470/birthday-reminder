@@ -1,7 +1,7 @@
 /**
  *
  * birthday remainder
- * 
+ *
  */
 
 "use strict";
@@ -29,15 +29,53 @@ mongoose.connect(mangoUrl, function(mongoError) {
     return;
   }
 
-  remaindBirthdays();
-  setInterval(remaindBirthdays, 24 * 3600 * 1000);
+  checkBirthdaysDaily();
+  setInterval(checkBirthdaysDaily, 24 * 3600 * 1000);
+  setInterval(checkPendingBirthdays, 60 * 1000);
 
 });
 
 /**
- * remaind all user's birthdays
+ * check all user's birthdays
  */
-function remaindBirthdays() {
+function checkBirthdaysDaily() {
+
+  var finder = new contactsFinder.ContactsFinder();
+  finder.findUsers({})
+    .then(function(value) {
+      value.forEach(function(element) {
+        remaindUserBirthdays(element);
+      });
+    });
+}
+
+/**
+ * check pending birthdays on the queue
+ */
+function checkPendingBirthdays() {
+
+  var finder = new contactsFinder.ContactsFinder();
+  finder.getBirthdayRemainderOperations()
+    .then(function(operations) {
+      operations.forEach(function(operation) {
+
+        finder.findUsers({"_id": operation.parameters[0]})
+          .then(function(users) {
+            users.forEach(function(user) {
+              remaindUserBirthdays(user);
+            });
+          });
+
+      });
+    });
+}
+
+/**
+ * send birthday remainder on specific user
+ *
+ * @param {user from db}user
+ */
+function remaindUserBirthdays(user) {
 
   // get important birthdays
   var birthdays = [];
@@ -46,24 +84,6 @@ function remaindBirthdays() {
     var birthday = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate() + day));
     birthdays.push(birthday);
   });
-
-  // remiand user birthdays
-  var finder = new contactsFinder.ContactsFinder();
-  finder.findUsers()
-    .then(function(value) {
-      value.forEach(function(element) {
-        remaindUserBirthdays(element, birthdays);
-      });
-    });
-}
-
-/**
- * send birthday remainder on specific user
- * 
- * @param {user from db}user
- * @param {Array of Date}birthdays
- */
-function remaindUserBirthdays(user, birthdays) {
 
   // show log
   var birthdaysStr = "[";
