@@ -9,6 +9,7 @@
 logs
 *.log
 npm-debug.log*
+package-lock.json
 config/local*.json
 node_modules/
 
