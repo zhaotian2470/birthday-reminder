@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "birthdayRemainder",
   "main": "index.js",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "lint": "find . -path '*/node_modules/*' -prune -o -path '*/lib/LunarCalendar.js' -prune -o -name '*.js' -print | xargs node_modules/jshint/bin/jshint",
     "pm2": "pm2 start index.js -i 1 --name birthday-remainder"
@@ -13,14 +16,12 @@
   "author": "tian",
   "license": "ISC",
   "dependencies": {
-    "bluebird": "^3.4.7",
     "bunyan": "^1.8.5",
     "config": "^1.25.1",
-    "mongoose": "^4.8.2",
-    "nodemailer": "^2.6.4",
-    "util": "^0.10.3"
+    "mongoose": "^9.6.2",
+    "nodemailer": "^8.0.7"
   },
   "devDependencies": {
-    "jshint": "^2.9.4"
+    "jshint": "^2.13.6"
   }
 }
